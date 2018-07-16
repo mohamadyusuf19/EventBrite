@@ -1,0 +1,3 @@
+rootProject.name = 'EventBrite'
+
+include ':app'
