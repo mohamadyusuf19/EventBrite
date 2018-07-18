@@ -24,7 +24,8 @@ export const methodPost = ({ name, description }) => {
         })
             .then((data) => {
                 dispatch({
-                    postDataSuccess(data)
+                    type: POST_DATA_SUCCESS,
+                    payload: data
                 });
                 Actions.main()
             })        

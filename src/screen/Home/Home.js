@@ -5,6 +5,9 @@ import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
 import { methodGet } from '../../actions/methodGetActions';
 import Loading from '../../components/Loading';
+import { Actions } from 'react-native-router-flux';
+
+const addIcon = require('../../Assets/plus.png')
 
 class Home extends Component {
     componentWillMount() {
@@ -19,7 +22,10 @@ class Home extends Component {
         }
         return (
             <View style={{ flex: 1 }}>
-                <Header/> 
+                <Header
+                    onPress={() => Actions.add()}
+                    source={addIcon}
+                /> 
                 <FlatList
                     data={this.props.data}
                     keyExtractor={(x,i) => i.toString() }

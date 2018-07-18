@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-const Header = () => {
+const Header = (props) => {
     return (
-        <View style={styles.container}>
+        <View style={styles.container}>            
             <Text style={styles.textHeader}>Event Brite</Text>
+            <TouchableOpacity style={styles.images} onPress={props.onPress}>
+                <Image style={styles.images} source={props.source} />
+            </TouchableOpacity>            
         </View>
     )
 }
@@ -14,12 +17,19 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 8
+        justifyContent: 'space-between',
+        elevation: 8,
+        flexDirection: 'row'
     },
     textHeader: {
         fontSize: 18,
-        color: '#000'
+        color: '#000',
+        marginLeft: 8
+    },
+    images: {
+        height: 25,
+        width: 25,        
+        marginRight: 8
     }
 })
 

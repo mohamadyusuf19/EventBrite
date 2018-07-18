@@ -5,13 +5,13 @@ import Home from '../screen/Home/Home';
 import Account from '../screen/Account/Account';
 import Event from '../screen/Events/Event';
 import Search from '../screen/Search/Search';
-import Add from '../screen/Add/Add';
+// import Add from '../screen/Add/Add';
 
 const homeIcon = require('../Assets/home.png')
 const eventIcon = require('../Assets/event.png')
 const userIcon = require('../Assets/user.png')
 const searchIcon = require('../Assets/search.png')
-const addIcon = require('../Assets/plus.png')
+// const addIcon = require('../Assets/plus.png')
 
 const bottomNavigator = createBottomTabNavigator({
     Home: {
@@ -38,18 +38,18 @@ const bottomNavigator = createBottomTabNavigator({
             )
         }
     },
-    Add: {
-        screen: Add,
-        navigationOptions: {
-            header: null,
-            tabBarIcon: ({ tintColor }) => (
-                <Image
-                    source={addIcon}
-                    style={[styles.icon, { tintColor }]}
-                />
-            )            
-        }
-    },
+    // Add: {
+    //     screen: Add,
+    //     navigationOptions: {
+    //         header: null,            
+    //         tabBarIcon: ({ tintColor }) => (
+    //             <Image
+    //                 source={addIcon}
+    //                 style={[styles.icon, { tintColor }]}
+    //             />
+    //         )            
+    //     }
+    // },
     Event: {
         screen: Event,
         navigationOptions: {
@@ -90,8 +90,19 @@ const bottomNavigator = createBottomTabNavigator({
     }
 })
 
+
+bottomNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index===3) {
+        tabBarVisible = false
+    }
+    return {
+        tabBarVisible,
+    }
+}
+
 const AppNavigator = createStackNavigator({
-    Home: {
+    Main: {
         screen: bottomNavigator,
         navigationOptions: {
             header: null
