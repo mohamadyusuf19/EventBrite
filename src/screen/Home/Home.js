@@ -4,17 +4,22 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
 import { methodGet } from '../../actions/index';
+import Loading from '../../components/Loading';
 
 class Home extends Component {
     componentWillMount() {
         this.props.methodGet()
     }
 
-    render() {        
-        console.log(this.props.loading)
+    renderAll() {
+        if(this.props.loading) {
+            return (
+                <Loading/>
+            )
+        }
         return (
             <View style={{ flex: 1 }}>
-                <Header/>
+                <Header/> 
                 <FlatList
                     data={this.props.data}
                     keyExtractor={(x,i) => i.toString() }
@@ -23,8 +28,29 @@ class Home extends Component {
             </View>
         )
     }
-    
+
+    render() {        
+        console.log(this.props.loading)
+        return (
+            <View style={{ flex: 1 }}>
+                {this.renderAll()}        
+            </View>                 
+        )
+    }
+
     _renderItem = ({ item, index }) => {
+        const renderImages = () => {
+            if(!item.images) {
+                return (
+                    <View style={{ height: 150, marginBottom: 10, marginTop: 10, justifyContent:'center', alignItems: 'center' }}>
+                        <Text>Gambar Tidak Ada</Text>
+                    </View>
+                )
+            }
+            return (
+                <Image source={{ uri: item.images }} style={{ height: 150, marginBottom: 10, marginTop: 10 }}/>
+            )
+        }
         return (            
                 <CardSection>             
                     <View style={styles.row}>
@@ -34,7 +60,7 @@ class Home extends Component {
                             <Text>{item.date}</Text>
                         </View>                    
                     </View>                         
-                    <Image source={{ uri: item.images }} style={{ height: 250, marginBottom: 10, marginTop: 10 }}/>
+                    {renderImages()}
                     <View>                                            
                         <Text>Description: {item.description}</Text>
                         <Text>Tiket Available: {item.ticket}/{item.ticket}</Text>
