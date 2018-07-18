@@ -85,7 +85,8 @@ const bottomNavigator = createBottomTabNavigator({
         style: {
             backgroundColor: '#fff',
             height: 60
-        }
+        },
+        showLabel: false
     }
 })
 
@@ -100,8 +101,8 @@ const AppNavigator = createStackNavigator({
 
 const styles = StyleSheet.create({
     icon: {
-        width: 20,
-        height: 20
+        width: 25,
+        height: 25
     }
 });
 

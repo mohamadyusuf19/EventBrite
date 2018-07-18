@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import reducers from './reducers';
 import thunk from 'redux-thunk';
 
-const store = createStore(reducers, applyMiddleware(thunk))
+const store = createStore(reducers, {}, applyMiddleware(thunk))
 
 class App extends Component {
   render() {

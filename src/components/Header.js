@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        elevation: 8
     },
     textHeader: {
         fontSize: 18,
