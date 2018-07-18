@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
-import methodReducer from './methodReducer';
+import methodGetReducer from './methodGetReducer';
+import methodPostReducer from './methodPostReducer';
 
 export default combineReducers({
-    methodReducer,
+    methodGetReducer,
+    methodPostReducer
 });
 

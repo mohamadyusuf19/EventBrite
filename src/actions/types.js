@@ -1,0 +1,7 @@
+export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
+export const GET_DATA_BEGIN = 'GET_DATA_BEGIN';
+export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+export const DES_CHANGED = 'DES_CHANGED';
+export const NAME_CHANGED = 'NAME_CHANGED';
+export const POST_DATA_SUCCESS = 'POST_DATA_SUCCESS';
+export const POST_DATA = 'POST_DATA';

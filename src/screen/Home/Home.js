@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
-import { methodGet } from '../../actions/index';
+import { methodGet } from '../../actions/methodGetActions';
 import Loading from '../../components/Loading';
 
 class Home extends Component {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error } = state.methodReducer;
+    const { data, loading, error } = state.methodGetReducer;
     return {
         data,
         loading,

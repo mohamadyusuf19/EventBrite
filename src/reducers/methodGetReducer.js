@@ -1,8 +1,8 @@
 import {
     GET_DATA_BEGIN,
     GET_DATA_SUCCESS,
-    GET_DATA_FAILURE
-} from '../actions';
+    GET_DATA_FAILURE,    
+} from '../actions/types';
 
 const initialState = {
     data: [],
@@ -10,7 +10,7 @@ const initialState = {
     error: null
 }
 
-export default function methodReducer(state = initialState, action) {
+export default function methodGetReducer(state = initialState, action) {
     console.log(action)
     switch(action.type) {
         case GET_DATA_BEGIN:
@@ -18,7 +18,7 @@ export default function methodReducer(state = initialState, action) {
         case GET_DATA_SUCCESS:
             return { ...state, loading: false, data: action.payload }
         case GET_DATA_FAILURE:
-            return { ...state, loading:false, error: action.payload.error, data: []}
+            return { ...state, loading:false, error: action.payload.error, data: []}        
         default: 
             return state;
     }

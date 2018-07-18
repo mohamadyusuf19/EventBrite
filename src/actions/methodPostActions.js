@@ -1,27 +1,12 @@
-export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
-export const GET_DATA_BEGIN = 'GET_DATA_BEGIN';
-export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+import { Actions } from "react-native-router-flux";
+
 export const DES_CHANGED = 'DES_CHANGED';
 export const NAME_CHANGED = 'NAME_CHANGED';
 export const POST_DATA_SUCCESS = 'POST_DATA_SUCCESS';
 export const POST_DATA = 'POST_DATA';
+export const POST_DATA_FAILURE = 'POST_DATA_FAILURE';
 
 const url = 'http://211.11.1.87:3000/employees';
-
-export const methodGet = () => {
-    return dispatch => {
-        dispatch(getDataBegin());
-        return fetch(url, { 
-            method: 'GET' 
-        })
-            .then(res => res.json())
-            .then(data => {
-                dispatch(getDataSuccess(data));
-                return data
-            })
-            .catch(error => dispatch(getDataFailure(error)))
-    }
-}
 
 export const methodPost = ({ name, description }) => {
     return dispatch => {
@@ -37,10 +22,13 @@ export const methodPost = ({ name, description }) => {
               description: description,
             }),
         })
-            .then(data => {
-                dispatch(postDataSuccess(data));
-                return data
-            })
+            .then((data) => {
+                dispatch({
+                    postDataSuccess(data)
+                });
+                Actions.main()
+            })        
+            .catch(error => dispatch(postDataFailure(error)))
     }
 }
 
@@ -54,6 +42,13 @@ export const postDataSuccess = (data) => {
     return {
         type: POST_DATA_SUCCESS,
         payload: data
+    }
+}
+
+export const postDataFailure = (error) => {
+    return {
+        type: POST_DATA_FAILURE,
+        payload: error
     }
 }
 
@@ -71,23 +66,4 @@ export const descriptionChanged = (text) => {
     }
 }
 
-export const getDataBegin = () => {
-    return {
-        type: GET_DATA_BEGIN
-    }
-}
-
-export const getDataSuccess = (data) => {
-    return {
-        type: GET_DATA_SUCCESS,
-        payload: data
-    }
-}
-
-export const getDataFailure = error => {
-    return {
-        type: GET_DATA_FAILURE,
-        payload: {error}
-    }
-}
 
