@@ -7,10 +7,11 @@ export const POST_DATA = 'POST_DATA';
 export const POST_DATA_FAILURE = 'POST_DATA_FAILURE';
 export const DATE_CHANGED = 'DATE_CHANGED';
 export const REGISTRATION_CHANGED = 'REGISTRATION_CHANGED';
+export const IMAGES_CHANGED = 'IMAGES_CHANGED';
 
 const url = 'http://211.11.1.87:3000/employees';
 
-export const methodPost = ({ name, description, date, register }) => {
+export const methodPost = ({ name, description, date, register, day, images }) => {
     return dispatch => {
         dispatch(postData());
         return fetch(url, { 
@@ -23,7 +24,9 @@ export const methodPost = ({ name, description, date, register }) => {
               name: name,
               description: description,
               date: date,
-              register: register
+              register: register,
+              day: day,
+              images: images
             }),
         })
             .then((data) => {
@@ -81,6 +84,13 @@ export const dateChanged = (text) => {
 export const registerChanged = (text) => {
     return {
         type: REGISTRATION_CHANGED,
+        payload: text
+    }
+}
+
+export const imagesChanged = (text) => {
+    return {
+        type: IMAGES_CHANGED,
         payload: text
     }
 }

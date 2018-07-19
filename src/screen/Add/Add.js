@@ -6,14 +6,17 @@ import {
     methodPost, 
     nameChanged, 
     descriptionChanged, 
-    dateChanged ,
+    dateChanged,
+    imagesChanged,
     registerChanged
 } from '../../actions/methodPostActions';
 import { getArrow } from '../../actions/arrowFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 const getWidth = Dimensions.get('window').width*0.75
 const calendarIcon = require('../../Assets/calendar.png')
+const day = moment().format("dddd, Do MMM YYYY");;
 
 class Add extends Component {
     constructor() {
@@ -57,8 +60,8 @@ class Add extends Component {
     };
 
     onButtonPress = () => { 
-        const { name, description, date, register } = this.props
-        this.props.methodPost({ name, description, date, register })        
+        const { name, description, date, register, images } = this.props
+        this.props.methodPost({ name, description, date, register, day, images })        
     }
     
     onButtonPost = () =>  {
@@ -89,6 +92,7 @@ class Add extends Component {
                     <Text>Event Name : </Text>
                     <TextInput
                         placeholder="Name"
+                        autoFocus={true}
                         style={{ width: 300, color: '#000' }}
                         value={this.props.name}
                         onChangeText={text => this.props.nameChanged(text)}
@@ -107,7 +111,16 @@ class Add extends Component {
                         onChangeText={text => this.props.descriptionChanged(text)}
                         />
                     </View>
-                </View>                        
+                </View>
+                <View style={styles.field}>
+                    <Text>Images : </Text>
+                    <TextInput
+                        placeholder="your url"                        
+                        style={{ width: 300, color: '#000' }}
+                        value={this.props.images}
+                        onChangeText={text => this.props.imagesChanged(text)}
+                    />
+                </View>                         
                 <Text style={styles.dateEvent}>Event Start : </Text>
                 <View style={styles.date}>
                     <TextInput
@@ -143,7 +156,7 @@ class Add extends Component {
                     isVisible={this.state.isDateTimeRegisterVisible}
                     onConfirm={this._handleDateRegistration}
                     onCancel={this._hideDateTimeRegister}
-                />                
+                />                               
             </View>
         )
     }
@@ -193,7 +206,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error, name, description, date, register } = state.methodPostReducer
+    const { data, loading, error, name, description, date, register, images } = state.methodPostReducer
     return {
         data,
         loading,
@@ -201,7 +214,8 @@ const mapStateToProps = state => {
         name,
         description,
         date,
-        register
+        register,
+        images
     }
 }
 
@@ -211,5 +225,6 @@ export default connect(mapStateToProps, {
     descriptionChanged,
     dateChanged,  
     registerChanged,
-    getArrow
+    imagesChanged,
+    getArrow,
 })(Add);

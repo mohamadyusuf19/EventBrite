@@ -44,7 +44,7 @@ class Home extends Component {
         )
     }
 
-    _renderItem = ({ item, index }) => {
+    _renderItem = ({ item, index }) => {        
         const renderImages = () => {
             if(!item.images) {
                 return (
@@ -60,10 +60,10 @@ class Home extends Component {
         return (            
                 <CardSection>             
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.avatar}></TouchableOpacity>
+                        <TouchableOpacity style={styles.avatar} onPress={() => console.log(item.id)}></TouchableOpacity>
                         <View style={{ flexDirection:'column', alignItems: 'flex-end', marginRight: 5 }}>
                             <Text style={styles.title}>{item.name}</Text>                    
-                            <Text>{item.date}</Text>
+                            <Text>{item.day}</Text>
                         </View>                    
                     </View>                         
                     {renderImages()}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     },
     bold: {
         color: '#000',
-        fontSize: 16
+        fontSize: 14
     }
 })
 
