@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import Header from '../../components/Header';
+import HeaderFunction from '../../components/HeaderFunction';
 import { 
     methodPost, 
     nameChanged, 
@@ -9,14 +9,14 @@ import {
     dateChanged 
 } from '../../actions/methodPostActions';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import moment from 'moment';
 
-const date = moment().format("dddd, MMM Do YY"); 
+const calendarIcon = require('../../Assets/calendar.png')
 
 class Add extends Component {
     constructor() {
         super()
         this.onButtonPress = this.onButtonPress.bind(this)
+        this.onButtonPost = this.onButtonPost.bind(this)
     }
 
     state = {
@@ -24,7 +24,6 @@ class Add extends Component {
     };
     
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
     _handleDatePicked = (date) => {
@@ -33,7 +32,9 @@ class Add extends Component {
             "July", "August", "September", "October", "November", "December"
         ];
 
-        this.props.dateChanged(date.getDate()+", "+monthNames[date.getMonth()]+" "+date.getFullYear());
+        let dayNames = ["Sunday", "Monday","Tuesday", "Wednesdey", "Thursday", "Friday", "Saturday"]
+
+        this.props.dateChanged(dayNames[date.getDay()]+", " + date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
         this._hideDateTimePicker();
     };
 
@@ -42,37 +43,58 @@ class Add extends Component {
         this.props.methodPost({ name, description, date })        
     }
     
+    onButtonPost = () =>  {
+        if(!this.props.name) {
+            return Alert.alert("Maaf Event Harus diisi")
+        }
+        return this.onButtonPress()
+    }
+
     render() {
         console.log(this.props.date)
         return (
             <View style={styles.container}>
-                <Header/>
-                <TextInput
-                    placeholder="Name"
-                    value={this.props.name}
-                    onChangeText={text => this.props.nameChanged(text)}
+                <HeaderFunction                    
+                    textFunction="POST"
+                    onPress={this.onButtonPost}
                 />
-                <TextInput
-                    placeholder="Description"
-                    value={this.props.description}
-                    onChangeText={text => this.props.descriptionChanged(text)}
-                />
-                <TextInput
-                    placeholder="Date"
-                    value={`${this.props.date}`}                
-                    onChangeText={text => this.props.dateChanged(text)}
-                />
-                <TouchableOpacity onPress={this._showDateTimePicker}>
-                    <Text>Show DatePicker</Text>
-                </TouchableOpacity>
+                <View style={styles.field}>
+                    <Text>Event Name : </Text>
+                    <TextInput
+                        placeholder="Name"
+                        style={{ width: 300, color: '#000' }}
+                        value={this.props.name}
+                        onChangeText={text => this.props.nameChanged(text)}
+                    />
+                </View>
+                <View style={styles.fieldDes}>
+                    <Text>Description : </Text>
+                    <TextInput                        
+                        style={{ width: 280, color: '#000', marginRight: 20, backgroundColor: '#f1f1f1' }}
+                        value={this.props.description}
+                        onChangeText={text => this.props.descriptionChanged(text)}
+                        multiline = {true}
+                        numberOfLines = {10}
+                    />    
+                </View>                        
+                <Text style={styles.dateEvent}>Event Start : </Text>
+                <View style={styles.date}>
+                    <TextInput
+                        editable={false}
+                        style={{ width: 300, color: '#000' }}
+                        placeholder="Select Date"
+                        value={`${this.props.date}`}                
+                        onChangeText={text => this.props.dateChanged(text)}
+                    />
+                    <TouchableOpacity onPress={this._showDateTimePicker}>
+                        <Image source={calendarIcon} style={styles.calendar} />
+                    </TouchableOpacity>
+                </View>    
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker}
-                />
-                <TouchableOpacity onPress={this.onButtonPress} style={styles.button}>
-                    <Text style={styles.textButton}>POST</Text>
-                </TouchableOpacity>
+                />                
             </View>
         )
     }
@@ -80,21 +102,32 @@ class Add extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#fff'
     },
-    button: {
-       height: 40,
-       width: 100,
-       backgroundColor: '#000',
-       alignSelf: 'center',
-       alignItems: 'center',
-       justifyContent: 'center',
-       borderRadius: 5
+    calendar: {
+        height: 25,
+        width: 25
     },
-    textButton: {
-        color: '#fff',
-        fontSize: 16
-    } 
+    date: {
+        flexDirection: 'row', 
+        margin: 8, 
+        justifyContent: 'space-between', 
+        alignItems: 'center' 
+    },
+    dateEvent: {
+        marginLeft: 8
+    },
+    field: {
+        flexDirection:'row',
+        margin: 8, 
+        alignItems: 'center'
+    },
+    fieldDes: {
+        flexDirection:'row',
+        margin: 8,         
+        height: 100,
+    }
 })
 
 const mapStateToProps = state => {

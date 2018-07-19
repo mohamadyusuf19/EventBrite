@@ -1,13 +1,16 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+const arrowIcon = require('../Assets/arrow.png')
 
-const Header = (props) => {
+const HeaderFunction = (props) => {
     return (
         <View style={styles.container}>            
-            <Text style={styles.textHeader}>Event Brite</Text>
-            <TouchableOpacity style={styles.images} onPress={props.onPress}>
-                <Image style={styles.images} source={props.source} />
+            <TouchableOpacity style={styles.images} onPress={() => Actions.pop()}>
+                <Image style={styles.images} source={arrowIcon} />
             </TouchableOpacity>            
+            <Text style={styles.textHeader}>Event Brite</Text>
+            <Text style={styles.textFunction} onPress={props.onPress}>{props.textFunction}</Text>
         </View>
     )
 }
@@ -20,6 +23,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         elevation: 8,
         flexDirection: 'row',
+        paddingLeft: 8,
+        paddingRight: 8
     },
     textHeader: {
         fontSize: 18,
@@ -30,7 +35,12 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,        
         marginRight: 8
+    },
+    textFunction: {
+        color: '#000',
+        fontSize: 18,
+        fontWeight: '800'
     }
 })
 
-export default Header
+export default HeaderFunction

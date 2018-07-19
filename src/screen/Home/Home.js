@@ -72,7 +72,7 @@ class Home extends Component {
                         <Text>Tiket Available: {item.ticket}/{item.ticket}</Text>
                     </View>                
                     <TouchableOpacity style={styles.button}>
-                        <Text style={styles.textButton}>Ticket</Text>
+                        <Text style={styles.textButton}>Registration</Text>
                     </TouchableOpacity>                                  
                 </CardSection>            
         )
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between'        
     },
     avatar: {
         height: 40,
