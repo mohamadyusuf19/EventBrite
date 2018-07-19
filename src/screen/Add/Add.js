@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import HeaderFunction from '../../components/HeaderFunction';
 import { 
     methodPost, 
     nameChanged, 
     descriptionChanged, 
-    dateChanged 
+    dateChanged ,
+    registerChanged
 } from '../../actions/methodPostActions';
+import { getArrow } from '../../actions/arrowFunction';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
+const getWidth = Dimensions.get('window').width*0.75
 const calendarIcon = require('../../Assets/calendar.png')
 
 class Add extends Component {
@@ -21,10 +24,13 @@ class Add extends Component {
 
     state = {
         isDateTimePickerVisible: false,
+        isDateTimeRegisterVisible: false
     };
     
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+    _showDateTimeRegister = () => this.setState({ isDateTimeRegisterVisible: true });
+    _hideDateTimeRegister = () => this.setState({ isDateTimeRegisterVisible: false });
 
     _handleDatePicked = (date) => {
         console.log('A date has been picked: ', date);
@@ -38,14 +44,34 @@ class Add extends Component {
         this._hideDateTimePicker();
     };
 
+    _handleDateRegistration = (date) => {
+        console.log('A date has been picked: ', date);
+        let monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        let dayNames = ["Sunday", "Monday","Tuesday", "Wednesdey", "Thursday", "Friday", "Saturday"]
+
+        this.props.registerChanged(dayNames[date.getDay()]+", " + date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+        this._hideDateTimePicker();
+    };
+
     onButtonPress = () => { 
-        const { name, description, date } = this.props
-        this.props.methodPost({ name, description, date })        
+        const { name, description, date, register } = this.props
+        this.props.methodPost({ name, description, date, register })        
     }
     
     onButtonPost = () =>  {
         if(!this.props.name) {
-            return Alert.alert("Maaf Event Harus diisi")
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf field harus diisi',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ));
         }
         return this.onButtonPress()
     }
@@ -54,7 +80,8 @@ class Add extends Component {
         console.log(this.props.date)
         return (
             <View style={styles.container}>
-                <HeaderFunction                    
+                <HeaderFunction                
+                    onPressArrow={this.props.getArrow}    
                     textFunction="POST"
                     onPress={this.onButtonPost}
                 />
@@ -68,14 +95,18 @@ class Add extends Component {
                     />
                 </View>
                 <View style={styles.fieldDes}>
-                    <Text>Description : </Text>
-                    <TextInput                        
-                        style={{ width: 280, color: '#000', marginRight: 20, backgroundColor: '#f1f1f1' }}
+                    <Text style={{ marginTop: 10 }}>Description : </Text>
+                    <View style={styles.textAreaContainer} >
+                        <TextInput
+                        style={styles.textArea}                        
+                        placeholder={"Type something"}
+                        placeholderTextColor={"grey"}
+                        numberOfLines={10}
+                        multiline={true}
                         value={this.props.description}
                         onChangeText={text => this.props.descriptionChanged(text)}
-                        multiline = {true}
-                        numberOfLines = {10}
-                    />    
+                        />
+                    </View>
                 </View>                        
                 <Text style={styles.dateEvent}>Event Start : </Text>
                 <View style={styles.date}>
@@ -94,6 +125,24 @@ class Add extends Component {
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker}
+                />
+                <Text style={styles.dateEvent}>Registration End : </Text>
+                <View style={styles.date}>
+                    <TextInput
+                        editable={false}
+                        style={{ width: 300, color: '#000' }}
+                        placeholder="Select Date"
+                        value={`${this.props.register}`}                
+                        onChangeText={text => this.props.registerChanged(text)}
+                    />
+                    <TouchableOpacity onPress={this._showDateTimeRegister}>
+                        <Image source={calendarIcon} style={styles.calendar} />
+                    </TouchableOpacity>
+                </View>    
+                <DateTimePicker
+                    isVisible={this.state.isDateTimeRegisterVisible}
+                    onConfirm={this._handleDateRegistration}
+                    onCancel={this._hideDateTimeRegister}
                 />                
             </View>
         )
@@ -125,20 +174,34 @@ const styles = StyleSheet.create({
     },
     fieldDes: {
         flexDirection:'row',
-        margin: 8,         
-        height: 100,
+        alignItems: 'flex-start', 
+        marginLeft: 8,                         
+    },
+    textAreaContainer: {
+        borderColor: '#f1f1f1',
+        borderWidth: 1,
+        paddingLeft: 5,
+        width: getWidth
+    },
+    textArea: {
+        height: 150,
+        justifyContent: "flex-start",
+        textAlignVertical: 'top',        
+        top: 0,
+        left: 0
     }
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error, name, description, date } = state.methodPostReducer
+    const { data, loading, error, name, description, date, register } = state.methodPostReducer
     return {
         data,
         loading,
         error,
         name,
         description,
-        date
+        date,
+        register
     }
 }
 
@@ -147,4 +210,6 @@ export default connect(mapStateToProps, {
     nameChanged, 
     descriptionChanged,
     dateChanged,  
+    registerChanged,
+    getArrow
 })(Add);

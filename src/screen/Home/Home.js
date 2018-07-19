@@ -68,9 +68,23 @@ class Home extends Component {
                     </View>                         
                     {renderImages()}
                     <View>                                            
-                        <Text>Description: {item.description}</Text>
-                        <Text>Tiket Available: {item.ticket}/{item.ticket}</Text>
-                    </View>                
+                        <Text style={styles.bold}>Description: </Text>
+                        <Text>{item.description}</Text>
+                    </View>      
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ marginRight: 5 }}>                                            
+                            <Text style={styles.bold}>Start Event </Text>
+                            <Text style={styles.bold}>Register Until </Text>                        
+                        </View>                
+                        <View>                                            
+                            <Text>: {item.date}</Text>
+                            <Text>: {item.register}</Text>
+                        </View>
+                    </View>                                           
+                    <View style={{ flexDirection: 'row' }}>                                            
+                        <Text style={styles.bold}>Tiket Available: </Text>
+                        <Text>{item.ticket}/{item.ticket}</Text>
+                    </View>                   
                     <TouchableOpacity style={styles.button}>
                         <Text style={styles.textButton}>Registration</Text>
                     </TouchableOpacity>                                  
@@ -111,6 +125,10 @@ const styles = StyleSheet.create({
     },
     textButton: {
         color: '#fff',
+        fontSize: 16
+    },
+    bold: {
+        color: '#000',
         fontSize: 16
     }
 })

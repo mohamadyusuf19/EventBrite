@@ -4,7 +4,9 @@ import {
     POST_DATA_FAILURE,
     NAME_CHANGED,
     DES_CHANGED,
-    DATE_CHANGED
+    DATE_CHANGED,
+    REGISTRATION_CHANGED,
+    ARROW_FUNCTION
 } from '../actions/types';
 
 const initialState = {
@@ -13,7 +15,8 @@ const initialState = {
     error: null,
     name: '',
     description: '',
-    date: ''
+    date: '',
+    register: ''
 }
 
 export default function methodPostReducer(state = initialState, action) {
@@ -31,6 +34,10 @@ export default function methodPostReducer(state = initialState, action) {
             return { ...state, description: action.payload }
         case DATE_CHANGED:
             return { ...state, date: action.payload }
+        case REGISTRATION_CHANGED:
+            return { ...state, register: action.payload }
+        case ARROW_FUNCTION:
+            return { ...state, name: '', description: '', date: '' }
         default: 
             return state;
     }

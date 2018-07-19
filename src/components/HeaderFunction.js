@@ -6,7 +6,7 @@ const arrowIcon = require('../Assets/arrow.png')
 const HeaderFunction = (props) => {
     return (
         <View style={styles.container}>            
-            <TouchableOpacity style={styles.images} onPress={() => Actions.pop()}>
+            <TouchableOpacity style={styles.images} onPress={props.onPressArrow}>
                 <Image style={styles.images} source={arrowIcon} />
             </TouchableOpacity>            
             <Text style={styles.textHeader}>Event Brite</Text>

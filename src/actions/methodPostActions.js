@@ -6,10 +6,11 @@ export const POST_DATA_SUCCESS = 'POST_DATA_SUCCESS';
 export const POST_DATA = 'POST_DATA';
 export const POST_DATA_FAILURE = 'POST_DATA_FAILURE';
 export const DATE_CHANGED = 'DATE_CHANGED';
+export const REGISTRATION_CHANGED = 'REGISTRATION_CHANGED';
 
 const url = 'http://211.11.1.87:3000/employees';
 
-export const methodPost = ({ name, description, date }) => {
+export const methodPost = ({ name, description, date, register }) => {
     return dispatch => {
         dispatch(postData());
         return fetch(url, { 
@@ -21,7 +22,8 @@ export const methodPost = ({ name, description, date }) => {
             body: JSON.stringify({
               name: name,
               description: description,
-              date: date
+              date: date,
+              register: register
             }),
         })
             .then((data) => {
@@ -72,6 +74,13 @@ export const descriptionChanged = (text) => {
 export const dateChanged = (text) => {
     return {
         type: DATE_CHANGED,
+        payload: text
+    }
+}
+
+export const registerChanged = (text) => {
+    return {
+        type: REGISTRATION_CHANGED,
         payload: text
     }
 }
