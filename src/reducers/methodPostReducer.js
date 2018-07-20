@@ -25,7 +25,7 @@ export default function methodPostReducer(state = initialState, action) {
     console.log(action)
     switch(action.type) {        
         case POST_DATA_SUCCESS: 
-            return { ...state, loading: false, data: action.payload, name: '', description: '', date: '' }
+            return { ...state, loading: false, data: action.payload, name: '', description: '', date: '', register: '', images: ''}
         case POST_DATA:
             return { ...state, loading: true }
         case POST_DATA_FAILURE:

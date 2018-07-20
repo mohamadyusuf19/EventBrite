@@ -10,7 +10,9 @@ const HeaderFunction = (props) => {
                 <Image style={styles.images} source={arrowIcon} />
             </TouchableOpacity>            
             <Text style={styles.textHeader}>Event Brite</Text>
-            <Text style={styles.textFunction} onPress={props.onPress}>{props.textFunction}</Text>
+            <TouchableOpacity onPress={props.onPress}>
+                <Text style={styles.textFunction} >{props.textFunction}</Text>
+            </TouchableOpacity>            
         </View>
     )
 }

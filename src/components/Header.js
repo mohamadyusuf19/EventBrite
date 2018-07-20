@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 const Header = (props) => {
     return (
         <View style={styles.container}>            
-            <Text style={styles.textHeader}>Event Brite</Text>
+            <Text style={styles.textHeader}>{props.textHeader}</Text>
             <TouchableOpacity style={styles.images} onPress={props.onPress}>
                 <Image style={styles.images} source={props.source} />
             </TouchableOpacity>            

@@ -9,10 +9,11 @@ export const DATE_CHANGED = 'DATE_CHANGED';
 export const REGISTRATION_CHANGED = 'REGISTRATION_CHANGED';
 export const IMAGES_CHANGED = 'IMAGES_CHANGED';
 
-const url = 'http://211.11.1.87:3000/employees';
+const url = 'http://211.11.1.87:3000/eventbrite';
 
 export const methodPost = ({ name, description, date, register, day, images }) => {
     return dispatch => {
+        Actions.main()
         dispatch(postData());
         return fetch(url, { 
             method: 'POST',
@@ -33,8 +34,7 @@ export const methodPost = ({ name, description, date, register, day, images }) =
                 dispatch({
                     type: POST_DATA_SUCCESS,
                     payload: data
-                });
-                Actions.main()
+                })                
             })        
             .catch(error => dispatch(postDataFailure(error)))
     }

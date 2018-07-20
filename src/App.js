@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { YellowBox } from 'react-native';
 import Routes from './config/Routes'
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -9,6 +9,11 @@ import thunk from 'redux-thunk';
 const store = createStore(reducers, {}, applyMiddleware(thunk))
 
 class App extends Component {
+  constructor() {
+    super()
+    console.ignoredYellowBox = [`Warning: Can't call setState`]
+  }
+
   render() {
     return (
       <Provider store={store}>

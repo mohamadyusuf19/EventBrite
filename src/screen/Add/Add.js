@@ -121,24 +121,6 @@ class Add extends Component {
                         onChangeText={text => this.props.imagesChanged(text)}
                     />
                 </View>                         
-                <Text style={styles.dateEvent}>Event Start : </Text>
-                <View style={styles.date}>
-                    <TextInput
-                        editable={false}
-                        style={{ width: 300, color: '#000' }}
-                        placeholder="Select Date"
-                        value={`${this.props.date}`}                
-                        onChangeText={text => this.props.dateChanged(text)}
-                    />
-                    <TouchableOpacity onPress={this._showDateTimePicker}>
-                        <Image source={calendarIcon} style={styles.calendar} />
-                    </TouchableOpacity>
-                </View>    
-                <DateTimePicker
-                    isVisible={this.state.isDateTimePickerVisible}
-                    onConfirm={this._handleDatePicked}
-                    onCancel={this._hideDateTimePicker}
-                />
                 <Text style={styles.dateEvent}>Registration End : </Text>
                 <View style={styles.date}>
                     <TextInput
@@ -156,7 +138,25 @@ class Add extends Component {
                     isVisible={this.state.isDateTimeRegisterVisible}
                     onConfirm={this._handleDateRegistration}
                     onCancel={this._hideDateTimeRegister}
-                />                               
+                />    
+                <Text style={styles.dateEvent}>Event Start : </Text>
+                <View style={styles.date}>
+                    <TextInput
+                        editable={false}
+                        style={{ width: 300, color: '#000' }}
+                        placeholder="Select Date"
+                        value={`${this.props.date}`}                
+                        onChangeText={text => this.props.dateChanged(text)}
+                    />
+                    <TouchableOpacity onPress={this._showDateTimePicker}>
+                        <Image source={calendarIcon} style={styles.calendar} />
+                    </TouchableOpacity>
+                </View>    
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDateTimePicker}
+                />                                       
             </View>
         )
     }

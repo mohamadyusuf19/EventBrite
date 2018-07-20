@@ -2,7 +2,7 @@ export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_BEGIN = 'GET_DATA_BEGIN';
 export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
 
-const url = 'http://211.11.1.87:3000/employees';
+const url = 'http://211.11.1.87:3000/eventbrite';
 
 export const methodGet = () => {
     return dispatch => {
@@ -38,4 +38,3 @@ export const getDataFailure = error => {
         payload: {error}
     }
 }
-
