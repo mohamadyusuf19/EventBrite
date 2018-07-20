@@ -20,6 +20,7 @@ import ReadMore from 'react-native-read-more-text';
 const addIcon = require('../../Assets/plus.png')
 const bookmarkIcon = require('../../Assets/bookmark.png') 
 const brokenImage = require('../../Assets/brokenImage.png')
+const avatarIcon = require('../../Assets/avatar.png')
 
 class Home extends Component {
     constructor() {
@@ -49,6 +50,15 @@ class Home extends Component {
             </View>                 
         )
     }
+    
+    renderFooter = () => {
+        if (!this.props.loading) return null;
+    
+        return (
+          <Loading/>
+        );
+      };
+    
 
     renderAll() {
         if(this.props.loading) {
@@ -61,7 +71,11 @@ class Home extends Component {
                 <FlatList                    
                     data={this.props.data}
                     keyExtractor={(x,i) => i.toString() }
-                    renderItem={this._renderItem}
+                    renderItem={this._renderItem}     
+                    onEndReachedThreshold={0.5}
+                    refreshing={this.props.refresh}
+                    onRefresh={() => this.props.methodGet()}
+                    ListFooterComponent={this.renderFooter}
                 />
             </View>
         )
@@ -80,21 +94,25 @@ class Home extends Component {
                 )
             }
             return (
-                <Image source={{ uri: item.images }} style={{ height: 150, marginBottom: 10, marginTop: 10 }}/>
+                <View style={styles.viewImages}>
+                    <Image source={{ uri: item.images }} style={styles.images}/>
+                </View>                
             )
         }        
 
         return (                  
                 <CardSection>             
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.avatar}></TouchableOpacity>
+                        <TouchableOpacity style={styles.avatar}>
+                            <Image source={avatarIcon} style={{ height: 22, width: 22 }} />
+                        </TouchableOpacity>
                         <View style={{ flexDirection:'column', alignItems: 'flex-end', marginRight: 5 }}>
                             <Text style={styles.title}>{item.name}</Text>                    
                             <Text>{item.day}</Text>
                         </View>                    
                     </View>                         
                     {renderImages()}
-                    <View style={{ marginBottom: 15 }}>                                            
+                    <View style={{ marginBottom: 15, borderTopColor: '#f1f1f1', borderTopWidth: 1 }}>                                            
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
                             <TouchableOpacity onPress={() => onButtonBookmark()}>
@@ -126,9 +144,10 @@ class Home extends Component {
                     <TouchableOpacity style={styles.button} onPress={() => this.showRegistration([
                         item.name,                        
                         item.description,
-                        item.date,
                         item.register,                        
-                        item.images
+                        item.date,                        
+                        item.images,
+                        item.place
                     ])}>
                         <Text style={styles.textButton}>Registration</Text>
                     </TouchableOpacity>                                  
@@ -145,11 +164,14 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'space-between'        
+        justifyContent: 'space-between',
+        marginBottom: 8,
     },
     avatar: {
         height: 40,
         width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 20,
         backgroundColor: '#f1f1f1'
     },
@@ -177,20 +199,32 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     bookmark1: {
-        height: 25, width: 25, marginRight: 15,
+        height: 25, 
+        width: 25, 
+        marginRight: 15,
         tintColor: '#000' 
     },
     bookmark2: {        
         tintColor: 'red',
+    },
+    images: {
+        height: 150, 
+        marginBottom: 10, 
+        marginTop: 10 
+    },
+    viewImages: {
+        borderTopColor: '#f1f1f1', 
+        borderTopWidth: 1
     }
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error } = state.methodGetReducer;    
+    const { data, loading, error, refresh } = state.methodGetReducer;    
     return {
         data,
         loading,
-        error        
+        error, 
+        refresh        
     }
 }
 

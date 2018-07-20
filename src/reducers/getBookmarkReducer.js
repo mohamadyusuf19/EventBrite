@@ -7,18 +7,19 @@ import {
 const initialState = {
     data: [],
     loading: false,
-    error: null
+    error: null,
+    refresh: false
 }
 
 export default function getBookmarkReducer(state = initialState, action) {
     console.log(action)
     switch(action.type) {
         case GET_DATA_BEGIN_BOOKMARK:
-            return { ...state, loading: true };
+            return { ...state, loading: true, refresh: true };
         case GET_DATA_SUCCESS_BOOKMARK:
-            return { ...state, loading: false, data: action.payload }
+            return { ...state, loading: false, data: action.payload.reverse(), refresh: false }
         case GET_DATA_FAILURE_BOOKMARK:
-            return { ...state, loading: false, error: action.payload.error, data: []}                    
+            return { ...state, loading: false, error: action.payload.error, data: [], refresh: false}                    
         default: 
             return state;
     }

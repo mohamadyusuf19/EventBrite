@@ -34,18 +34,28 @@ class DetailEvent extends Component {
     render() {
         console.log(this.props.detail)
         return (
-            <ScrollView style={{ flex: 1 }}> 
+            <ScrollView style={styles.container}> 
                 <View style={styles.container}>
                     <Header
                         textHeader="Bookmark"
                     />      
                     {this.renderImages()}                                         
-                        <View style={styles.field}>                            
-                            <Text style={styles.title}>{this.props.detail[0]}</Text>                    
-                            <Text style={styles.contain}>{this.props.detail[1]}</Text>
-                            <Text style={styles.contain}>Register Until: {this.props.detail[2]}</Text>
-                            <Text style={styles.contain}>Start Event: {this.props.detail[3]}</Text>                                        
-                        </View>                                                  
+                    <View style={styles.field}>                            
+                        <Text style={styles.title}>{this.props.detail[0]}</Text>                    
+                        <Text style={styles.containDes}>{this.props.detail[1]}</Text>
+                        <View style={styles.row}>
+                            <View style={styles.key}>
+                                <Text style={styles.contain}>Register Until</Text>
+                                <Text style={styles.contain}>Start Event</Text>                                        
+                                <Text style={styles.contain}>Place</Text>    
+                            </View>
+                            <View>
+                                <Text style={styles.contain}>: {this.props.detail[2]}</Text>
+                                <Text style={styles.contain}>: {this.props.detail[3]}</Text>                                        
+                                <Text style={styles.contain}>: {this.props.detail[5]}</Text>
+                            </View>
+                        </View>                                                    
+                    </View>                                                  
                 </View>
             </ScrollView>                
         )
@@ -78,13 +88,17 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: '800',
-        color: '#000'
+        color: '#000',
+        marginBottom: 20
     },
     contain: {
         color: '#000',
+        fontSize: 15        
+    },
+    containDes: {
+        color: '#000',
         fontSize: 15,
-        marginBottom: 20,
-        marginTop: 10
+        marginBottom: 20        
     },
     button: {
         height: 40,
@@ -102,6 +116,12 @@ const styles = StyleSheet.create({
     textButton: {
         fontSize: 16,
         color: '#fff'
+    },
+    row: {
+        flexDirection: 'row'
+    },
+    key: {
+        marginRight: 10
     }
 })
 

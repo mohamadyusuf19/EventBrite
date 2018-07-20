@@ -18,6 +18,14 @@ class Event extends Component {
         Actions.detailEvent({ detail: index })
     }
 
+    renderFooter = () => {
+        if (!this.props.loading) return null;
+    
+        return (
+          <Loading/>
+        );
+    };
+
     renderAll() {
         if(this.props.loading) {
             return <Loading/>
@@ -29,6 +37,10 @@ class Event extends Component {
                     numColumns={3}
                     keyExtractor={(x,i) => i.toString()}
                     renderItem={this._renderItem}
+                    onEndReachedThreshold={0.5}
+                    refreshing={this.props.refresh}
+                    onRefresh={() => this.props.getBookmark()}
+                    ListFooterComponent={this.renderFooter}
                 />
             </View>
         )
@@ -50,9 +62,10 @@ class Event extends Component {
             <TouchableOpacity style={styles.row} onPress={() => this.showEvent([
                 item.name,                        
                 item.description,
-                item.date,
-                item.register,                        
-                item.images
+                item.register,    
+                item.date,                                    
+                item.images,
+                item.place
             ])}>
                 <Image style={styles.image} source={{ uri: item.images }} />
             </TouchableOpacity>
@@ -76,11 +89,12 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error } = state.getBookmarkReducer
+    const { data, loading, error, refresh } = state.getBookmarkReducer
     return {
         data,
         loading,
-        error
+        error,
+        refresh
     }
 }
 
