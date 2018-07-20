@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Header from '../../components/Header';
 
 export default class Search extends Component {
   state = {
@@ -19,6 +20,9 @@ export default class Search extends Component {
   render () {
     return (
       <View style={{ flex: 1 }}>
+         <Header
+            textHeader="Event Brite"            
+        /> 
         <TouchableOpacity onPress={this._showDateTimePicker}>
           <Text>Show DatePicker</Text>
         </TouchableOpacity>

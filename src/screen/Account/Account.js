@@ -6,7 +6,9 @@ class Account extends Component {
     render() {
         return (
             <View>
-                <Header/>
+                <Header
+                    textHeader="Event Brite"
+                />
                 <Text>Account</Text>
             </View>
         )

@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 
 const getHeight = Dimensions.get('window').height*0.4;
 const getWidth = Dimensions.get('window').width
+const brokenImage = require('../../Assets/brokenImage.png')
 
 class Registration extends Component {
     constructor() {
@@ -22,9 +23,7 @@ class Registration extends Component {
     renderImages() {
         if(!this.props.detail[4]) {
             return(
-                <View style={styles.images}>
-                    <Text>Image Not Available</Text>
-                </View>
+                <Image source={brokenImage} style={styles.imagesZero} />                
             )
         }
         return (
@@ -66,6 +65,15 @@ const styles = StyleSheet.create({
         width: getWidth,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    imagesZero: {
+        height: 100,
+        width: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 10,
+        marginBottom: 10
     },
     field: {
         padding: 8,

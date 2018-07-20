@@ -40,6 +40,11 @@ class Home extends Component {
     render() {  
         return (
             <View style={{ flex: 1 }}>
+                <Header
+                    textHeader="Event Brite"
+                    onPress={() => Actions.add()}
+                    source={addIcon}
+                /> 
                 {this.renderAll()}        
             </View>                 
         )
@@ -52,12 +57,7 @@ class Home extends Component {
             )
         }
         return (
-            <View style={{ flex: 1 }}>
-                <Header
-                    textHeader="Event Brite"
-                    onPress={() => Actions.add()}
-                    source={addIcon}
-                /> 
+            <View style={{ flex: 1 }}>            
                 <FlatList                    
                     data={this.props.data}
                     keyExtractor={(x,i) => i.toString() }
@@ -108,11 +108,13 @@ class Home extends Component {
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ marginRight: 8 }}>                                            
                             <Text style={styles.bold}>Start Event </Text>
+                            <Text style={styles.bold}>Place </Text>
                             <Text style={styles.bold}>Register Until </Text>                        
                             <Text style={styles.bold}>Tiket Available</Text>
                         </View>                
                         <View>                                            
                             <Text style={styles.bold}>: {item.date}</Text>
+                            <Text style={styles.bold}>: {item.place}</Text>
                             <Text style={styles.bold}>: {item.register}</Text>
                             <Text style={styles.bold}>: {item.ticket}/{item.ticket}</Text>
                         </View>

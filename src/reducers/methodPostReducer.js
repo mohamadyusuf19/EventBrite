@@ -7,6 +7,7 @@ import {
     DATE_CHANGED,
     REGISTRATION_CHANGED,
     IMAGES_CHANGED,
+    PLACE_CHANGED,
     ARROW_FUNCTION
 } from '../actions/types';
 
@@ -18,7 +19,8 @@ const initialState = {
     description: '',
     date: '',
     register: '',
-    images: ''
+    images: '',
+    place: ''
 }
 
 export default function methodPostReducer(state = initialState, action) {
@@ -40,8 +42,10 @@ export default function methodPostReducer(state = initialState, action) {
             return { ...state, register: action.payload }
         case IMAGES_CHANGED:
             return { ...state, images: action.payload }
+        case PLACE_CHANGED:
+            return { ...state, place: action.payload }
         case ARROW_FUNCTION:
-            return { ...state, name: '', description: '', date: '', register: '', images: '' }
+            return { ...state, name: '', description: '', date: '', register: '', images: '', place: '' }
         default: 
             return state;
     }

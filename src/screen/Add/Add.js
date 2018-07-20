@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import HeaderFunction from '../../components/HeaderFunction';
 import { 
@@ -8,6 +8,7 @@ import {
     descriptionChanged, 
     dateChanged,
     imagesChanged,
+    placeChanged,
     registerChanged
 } from '../../actions/methodPostActions';
 import { getArrow } from '../../actions/arrowFunction';
@@ -60,23 +61,76 @@ class Add extends Component {
     };
 
     onButtonPress = () => { 
-        const { name, description, date, register, images } = this.props
-        this.props.methodPost({ name, description, date, register, day, images })        
+        const { name, description, date, register, images, place } = this.props
+        this.props.methodPost({ name, description, date, register, day, images, place })        
     }
     
     onButtonPost = () =>  {
-        if(!this.props.name) {
+        const { name, description, date, register, images, place } = this.props
+        if(!name) {
             return (
                 Alert.alert(
                     'Perhatian',
-                    'Maaf field harus diisi',
+                    'Maaf nama event harus diisi !!!',
                     [                                           
                       {text: 'OK', onPress: () => console.log('OK Pressed')},
                     ],
                     { cancelable: false }
-            ));
+            ))
+        } else if (!description) {
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf deskripsi harus diisi !!!',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ))
+        } else if (!place) {
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf tempat harus diisi !!!',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ))
+        } else if (!images) {
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf gambar harus diisi !!!',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ))
+        } else if (!date) {
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf tanggal event harus diisi !!!',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ))
+        } else if (!register) {
+            return (
+                Alert.alert(
+                    'Perhatian',
+                    'Maaf tanggal register harus diisi !!!',
+                    [                                           
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+            ))
+        } else {
+            return this.onButtonPress()
         }
-        return this.onButtonPress()
+        
     }
 
     render() {
@@ -88,75 +142,86 @@ class Add extends Component {
                     textFunction="POST"
                     onPress={this.onButtonPost}
                 />
-                <View style={styles.field}>
-                    <Text>Event Name : </Text>
-                    <TextInput
-                        placeholder="Name"
-                        autoFocus={true}
-                        style={{ width: 300, color: '#000' }}
-                        value={this.props.name}
-                        onChangeText={text => this.props.nameChanged(text)}
-                    />
-                </View>
-                <View style={styles.fieldDes}>
-                    <Text style={{ marginTop: 10 }}>Description : </Text>
-                    <View style={styles.textAreaContainer} >
+                <ScrollView>
+                    <View style={styles.field}>
+                        <Text>Event Name : </Text>
                         <TextInput
-                        style={styles.textArea}                        
-                        placeholder={"Type something"}
-                        placeholderTextColor={"grey"}
-                        numberOfLines={10}
-                        multiline={true}
-                        value={this.props.description}
-                        onChangeText={text => this.props.descriptionChanged(text)}
+                            placeholder="Name of event"
+                            autoFocus={true}
+                            style={{ width: 300, color: '#000' }}
+                            value={this.props.name}
+                            onChangeText={text => this.props.nameChanged(text)}
                         />
                     </View>
-                </View>
-                <View style={styles.field}>
-                    <Text>Images : </Text>
-                    <TextInput
-                        placeholder="your url"                        
-                        style={{ width: 300, color: '#000' }}
-                        value={this.props.images}
-                        onChangeText={text => this.props.imagesChanged(text)}
-                    />
-                </View>                         
-                <Text style={styles.dateEvent}>Registration End : </Text>
-                <View style={styles.date}>
-                    <TextInput
-                        editable={false}
-                        style={{ width: 300, color: '#000' }}
-                        placeholder="Select Date"
-                        value={`${this.props.register}`}                
-                        onChangeText={text => this.props.registerChanged(text)}
-                    />
-                    <TouchableOpacity onPress={this._showDateTimeRegister}>
-                        <Image source={calendarIcon} style={styles.calendar} />
-                    </TouchableOpacity>
-                </View>    
-                <DateTimePicker
-                    isVisible={this.state.isDateTimeRegisterVisible}
-                    onConfirm={this._handleDateRegistration}
-                    onCancel={this._hideDateTimeRegister}
-                />    
-                <Text style={styles.dateEvent}>Event Start : </Text>
-                <View style={styles.date}>
-                    <TextInput
-                        editable={false}
-                        style={{ width: 300, color: '#000' }}
-                        placeholder="Select Date"
-                        value={`${this.props.date}`}                
-                        onChangeText={text => this.props.dateChanged(text)}
-                    />
-                    <TouchableOpacity onPress={this._showDateTimePicker}>
-                        <Image source={calendarIcon} style={styles.calendar} />
-                    </TouchableOpacity>
-                </View>    
-                <DateTimePicker
-                    isVisible={this.state.isDateTimePickerVisible}
-                    onConfirm={this._handleDatePicked}
-                    onCancel={this._hideDateTimePicker}
-                />                                       
+                    <View style={styles.fieldDes}>
+                        <Text style={{ marginTop: 10 }}>Description : </Text>
+                        <View style={styles.textAreaContainer} >
+                            <TextInput
+                            style={styles.textArea}                        
+                            placeholder={"Type something"}
+                            placeholderTextColor={"grey"}
+                            numberOfLines={10}
+                            multiline={true}
+                            value={this.props.description}
+                            onChangeText={text => this.props.descriptionChanged(text)}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.field}>
+                        <Text>Place : </Text>
+                        <TextInput
+                            placeholder="Place Event"                        
+                            style={{ width: 300, color: '#000' }}
+                            value={this.props.place}
+                            onChangeText={text => this.props.placeChanged(text)}
+                        />
+                    </View>                         
+                    <View style={styles.field}>
+                        <Text>Images : </Text>
+                        <TextInput
+                            placeholder="Your url images"                        
+                            style={{ width: 300, color: '#000' }}
+                            value={this.props.images}
+                            onChangeText={text => this.props.imagesChanged(text)}
+                        />
+                    </View>                         
+                    <Text style={styles.dateEvent}>Registration End : </Text>
+                    <View style={styles.date}>
+                        <TextInput
+                            editable={false}
+                            style={{ width: 300, color: '#000' }}
+                            placeholder="Select Date"
+                            value={`${this.props.register}`}                
+                            onChangeText={text => this.props.registerChanged(text)}
+                        />
+                        <TouchableOpacity onPress={this._showDateTimeRegister}>
+                            <Image source={calendarIcon} style={styles.calendar} />
+                        </TouchableOpacity>
+                    </View>    
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimeRegisterVisible}
+                        onConfirm={this._handleDateRegistration}
+                        onCancel={this._hideDateTimeRegister}
+                    />    
+                    <Text style={styles.dateEvent}>Event Start : </Text>
+                    <View style={styles.date}>
+                        <TextInput
+                            editable={false}
+                            style={{ width: 300, color: '#000' }}
+                            placeholder="Select Date"
+                            value={`${this.props.date}`}                
+                            onChangeText={text => this.props.dateChanged(text)}
+                        />
+                        <TouchableOpacity onPress={this._showDateTimePicker}>
+                            <Image source={calendarIcon} style={styles.calendar} />
+                        </TouchableOpacity>
+                    </View>    
+                    <DateTimePicker
+                        isVisible={this.state.isDateTimePickerVisible}
+                        onConfirm={this._handleDatePicked}
+                        onCancel={this._hideDateTimePicker}
+                    />                                       
+                </ScrollView>
             </View>
         )
     }
@@ -182,7 +247,7 @@ const styles = StyleSheet.create({
     },
     field: {
         flexDirection:'row',
-        margin: 8, 
+        marginLeft: 8,         
         alignItems: 'center'
     },
     fieldDes: {
@@ -206,7 +271,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error, name, description, date, register, images } = state.methodPostReducer
+    const { data, loading, error, name, description, date, register, images, place } = state.methodPostReducer
     return {
         data,
         loading,
@@ -215,7 +280,8 @@ const mapStateToProps = state => {
         description,
         date,
         register,
-        images
+        images,
+        place
     }
 }
 
@@ -226,5 +292,6 @@ export default connect(mapStateToProps, {
     dateChanged,  
     registerChanged,
     imagesChanged,
+    placeChanged,
     getArrow,
 })(Add);

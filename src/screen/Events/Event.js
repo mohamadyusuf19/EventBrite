@@ -6,7 +6,9 @@ class Event extends Component {
     render() {
         return (
             <View>
-                <Header/>
+                <Header
+                    textHeader="Event Brite"                   
+                /> 
                 <Text>Event</Text>
             </View>
         )

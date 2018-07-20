@@ -8,10 +8,11 @@ export const POST_DATA_FAILURE = 'POST_DATA_FAILURE';
 export const DATE_CHANGED = 'DATE_CHANGED';
 export const REGISTRATION_CHANGED = 'REGISTRATION_CHANGED';
 export const IMAGES_CHANGED = 'IMAGES_CHANGED';
+export const PLACE_CHANGED = 'PLACE_CHANGED';
 
 const url = 'http://211.11.1.87:3000/eventbrite';
 
-export const methodPost = ({ name, description, date, register, day, images }) => {
+export const methodPost = ({ name, description, date, register, day, images, place }) => {
     return dispatch => {
         Actions.main()
         dispatch(postData());
@@ -27,7 +28,8 @@ export const methodPost = ({ name, description, date, register, day, images }) =
               date: date,
               register: register,
               day: day,
-              images: images
+              images: images,
+              place: place
             }),
         })
             .then((data) => {
@@ -91,6 +93,13 @@ export const registerChanged = (text) => {
 export const imagesChanged = (text) => {
     return {
         type: IMAGES_CHANGED,
+        payload: text
+    }
+}
+
+export const placeChanged = (text) => {
+    return {
+        type: PLACE_CHANGED,
         payload: text
     }
 }

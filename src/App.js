@@ -11,7 +11,9 @@ const store = createStore(reducers, {}, applyMiddleware(thunk))
 class App extends Component {
   constructor() {
     super()
-    console.ignoredYellowBox = [`Warning: Can't call setState`]
+    console.ignoredYellowBox = [
+      'Warning', `Can't call`
+    ];
   }
 
   render() {
