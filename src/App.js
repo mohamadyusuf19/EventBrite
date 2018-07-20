@@ -12,7 +12,7 @@ class App extends Component {
   constructor() {
     super()
     console.ignoredYellowBox = [
-      'Warning', `Can't call`
+      'Warning', `Warning: Can't call setState`
     ];
   }
 

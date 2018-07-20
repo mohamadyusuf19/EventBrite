@@ -4,8 +4,7 @@ import {
     Text, 
     StyleSheet, 
     FlatList, 
-    TouchableOpacity, 
-    TouchableWithoutFeedback,
+    TouchableOpacity,     
     Image 
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -13,6 +12,7 @@ import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
 import { methodGet } from '../../actions/methodGetActions';
 import { selectId } from '../../actions/selectActions';
+import { postBookmark } from '../../actions/postBookmarkActions';
 import Loading from '../../components/Loading';
 import { Actions } from 'react-native-router-flux';
 import ReadMore from 'react-native-read-more-text';
@@ -68,6 +68,11 @@ class Home extends Component {
     }
 
     _renderItem = ({ item, index }) => {                
+        const onButtonBookmark = () => {
+            const { name, description, date, register, images, place } = item
+            this.props.postBookmark({ name, description, date, register, images, place })
+        }
+
         const renderImages = () => {
             if(!item.images) {
                 return (                    
@@ -79,8 +84,7 @@ class Home extends Component {
             )
         }        
 
-        return (      
-            <TouchableWithoutFeedback onPress={() => console.log(this.props.selectId(item.id))}>
+        return (                  
                 <CardSection>             
                     <View style={styles.row}>
                         <TouchableOpacity style={styles.avatar}></TouchableOpacity>
@@ -93,7 +97,7 @@ class Home extends Component {
                     <View style={{ marginBottom: 15 }}>                                            
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => onButtonBookmark()}>
                                 <Image source={bookmarkIcon} style={styles.bookmark1}/>
                             </TouchableOpacity>                            
                         </View>                        
@@ -128,8 +132,7 @@ class Home extends Component {
                     ])}>
                         <Text style={styles.textButton}>Registration</Text>
                     </TouchableOpacity>                                  
-                </CardSection>        
-            </TouchableWithoutFeedback>      
+                </CardSection>                        
         )
     }
 }
@@ -191,4 +194,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { methodGet, selectId })(Home);
+export default connect(mapStateToProps, { methodGet, selectId, postBookmark })(Home);

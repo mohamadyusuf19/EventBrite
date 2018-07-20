@@ -16,6 +16,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 const getWidth = Dimensions.get('window').width*0.75
+const getWidthDate = Dimensions.get('window').width*0.6
 const calendarIcon = require('../../Assets/calendar.png')
 const day = moment().format("dddd, Do MMM YYYY");;
 
@@ -57,7 +58,7 @@ class Add extends Component {
         let dayNames = ["Sunday", "Monday","Tuesday", "Wednesdey", "Thursday", "Friday", "Saturday"]
 
         this.props.registerChanged(dayNames[date.getDay()]+", " + date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
-        this._hideDateTimePicker();
+        this._hideDateTimeRegister();
     };
 
     onButtonPress = () => { 
@@ -189,7 +190,7 @@ class Add extends Component {
                     <View style={styles.date}>
                         <TextInput
                             editable={false}
-                            style={{ width: 300, color: '#000' }}
+                            style={{ width: getWidthDate, color: '#000' }}
                             placeholder="Select Date"
                             value={`${this.props.register}`}                
                             onChangeText={text => this.props.registerChanged(text)}
@@ -207,7 +208,7 @@ class Add extends Component {
                     <View style={styles.date}>
                         <TextInput
                             editable={false}
-                            style={{ width: 300, color: '#000' }}
+                            style={{ width: getWidthDate, color: '#000' }}
                             placeholder="Select Date"
                             value={`${this.props.date}`}                
                             onChangeText={text => this.props.dateChanged(text)}
@@ -238,8 +239,7 @@ const styles = StyleSheet.create({
     },
     date: {
         flexDirection: 'row', 
-        margin: 8, 
-        justifyContent: 'space-between', 
+        margin: 8,         
         alignItems: 'center' 
     },
     dateEvent: {
