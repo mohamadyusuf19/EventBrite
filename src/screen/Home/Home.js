@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
 import { methodGet } from '../../actions/methodGetActions';
-import { selectId } from '../../actions/selectActions';
 import { postBookmark } from '../../actions/postBookmarkActions';
 import Loading from '../../components/Loading';
 import { Actions } from 'react-native-router-flux';
@@ -22,13 +21,7 @@ const bookmarkIcon = require('../../Assets/bookmark.png')
 const brokenImage = require('../../Assets/brokenImage.png')
 const avatarIcon = require('../../Assets/avatar.png')
 
-class Home extends Component {
-    constructor() {
-        super()
-        this.state = {
-            onbuttonBookmarkClicked: false
-        }
-    }
+class Home extends Component {    
 
     componentWillMount() {
         this.props.methodGet()
@@ -71,7 +64,7 @@ class Home extends Component {
                 <FlatList                    
                     data={this.props.data}
                     keyExtractor={(x,i) => i.toString() }
-                    renderItem={this._renderItem}     
+                    renderItem={this._renderItem}                         
                     onEndReachedThreshold={0.5}
                     refreshing={this.props.refresh}
                     onRefresh={() => this.props.methodGet()}
@@ -84,7 +77,7 @@ class Home extends Component {
     _renderItem = ({ item, index }) => {                
         const onButtonBookmark = () => {
             const { name, description, date, register, images, place } = item
-            this.props.postBookmark({ name, description, date, register, images, place })
+            this.props.postBookmark({ name, description, date, register, images, place })            
         }
 
         const renderImages = () => {
@@ -116,7 +109,7 @@ class Home extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
                             <TouchableOpacity onPress={() => onButtonBookmark()}>
-                                <Image source={bookmarkIcon} style={styles.bookmark1}/>
+                                <Image source={bookmarkIcon} style={[styles.bookmark1, this.props.color && styles.bookmark2]}/>
                             </TouchableOpacity>                            
                         </View>                        
                         <ReadMore
@@ -219,13 +212,15 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error, refresh } = state.methodGetReducer;    
+    const { data, loading, error, refresh } = state.methodGetReducer;      
+    const { color } = state.postBookmarkReducer;
     return {
         data,
         loading,
-        error, 
-        refresh        
+        error,         
+        refresh,
+        color
     }
 }
 
-export default connect(mapStateToProps, { methodGet, selectId, postBookmark })(Home);
+export default connect(mapStateToProps, { methodGet, postBookmark })(Home);

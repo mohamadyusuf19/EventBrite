@@ -65,7 +65,8 @@ class Event extends Component {
                 item.register,    
                 item.date,                                    
                 item.images,
-                item.place
+                item.place,
+                item.id
             ])}>
                 <Image style={styles.image} source={{ uri: item.images }} />
             </TouchableOpacity>

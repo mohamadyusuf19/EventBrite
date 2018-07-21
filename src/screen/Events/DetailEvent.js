@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, Dimensions, Alert } from 'react-native';
 import Header from '../../components/Header';
+import { deleteBookmark } from '../../actions/deleteBookmarkActions';
+import { connect } from 'react-redux';
 
 const getHeight = Dimensions.get('window').height*0.4;
 const getWidth = Dimensions.get('window').width
 const brokenImage = require('../../Assets/brokenImage.png')
+const dustbinIcon = require('../../Assets/dustbin.png')
 
 class DetailEvent extends Component {
     constructor() {
@@ -12,6 +15,7 @@ class DetailEvent extends Component {
         this.state = {
             onButtonClicked: false
         }
+        this.onButtonDelete = this.onButtonDelete.bind(this)
     }
 
     onButtonPress() {
@@ -31,6 +35,19 @@ class DetailEvent extends Component {
         )        
     }
 
+    onButtonDelete() {
+        const id = this.props.detail[6]
+        Alert.alert(
+            'Perhatian',
+            'Hapus Data Bookmark',
+            [                                        
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
+                {text: 'OK', onPress: () => this.props.deleteBookmark({id})},
+            ],
+            { cancelable: false }
+        )
+    }
+
     render() {
         console.log(this.props.detail)
         return (
@@ -38,6 +55,8 @@ class DetailEvent extends Component {
                 <View style={styles.container}>
                     <Header
                         textHeader="Bookmark"
+                        source={dustbinIcon}
+                        onPress={() => this.onButtonDelete()}
                     />      
                     {this.renderImages()}                                         
                     <View style={styles.field}>                            
@@ -47,7 +66,7 @@ class DetailEvent extends Component {
                             <View style={styles.key}>
                                 <Text style={styles.contain}>Register Until</Text>
                                 <Text style={styles.contain}>Start Event</Text>                                        
-                                <Text style={styles.contain}>Place</Text>    
+                                <Text style={styles.contain}>Place</Text>                                
                             </View>
                             <View>
                                 <Text style={styles.contain}>: {this.props.detail[2]}</Text>
@@ -125,4 +144,13 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DetailEvent;
+const mapStateToProps = state => {
+    const { data, loading, error } = state.deleteBookmarkReducer;
+    return {
+        data,
+        loading,
+        error
+    }
+}
+
+export default connect(null, { deleteBookmark })(DetailEvent);

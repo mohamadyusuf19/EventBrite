@@ -1,20 +1,14 @@
 import {
     POST_DATA_SUCCESS_BOOKMARK,
     POST_DATA_BOOKMARK,
-    POST_DATA_FAILURE_BOOKMARK,
-    NAME_CHANGED,
-    DES_CHANGED,
-    DATE_CHANGED,
-    REGISTRATION_CHANGED,
-    IMAGES_CHANGED,
-    PLACE_CHANGED,
-    ARROW_FUNCTION
+    POST_DATA_FAILURE_BOOKMARK
 } from '../actions/types';
 
 const initialState = {
     data: [],
     loading: false,
-    error: null    
+    error: null,
+    color: false    
 }
 
 export default function postBookmarkReducer(state = initialState, action) {
@@ -23,7 +17,7 @@ export default function postBookmarkReducer(state = initialState, action) {
         case POST_DATA_SUCCESS_BOOKMARK: 
             return { ...state, loading: false, data: action.payload}
         case POST_DATA_BOOKMARK:
-            return { ...state, loading: true }
+            return { ...state, loading: true, color: true }
         case POST_DATA_FAILURE_BOOKMARK:
             return { ...state, loading: false, error: action.payload }        
         default: 
