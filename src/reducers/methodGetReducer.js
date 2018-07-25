@@ -12,8 +12,7 @@ const initialState = {
     refresh: false
 }
 
-export default function methodGetReducer(state = initialState, action) {
-    console.log(action)
+export default function methodGetReducer(state = initialState, action) {    
     switch(action.type) {
         case GET_DATA_BEGIN:
             return { ...state, loading: true, refresh: true };

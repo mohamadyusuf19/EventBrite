@@ -18,7 +18,6 @@ import moment from 'moment';
 const getWidth = Dimensions.get('window').width*0.75
 const getWidthDate = Dimensions.get('window').width*0.6
 const calendarIcon = require('../../Assets/calendar.png')
-const day = moment().format("dddd, Do MMM YYYY");;
 
 class Add extends Component {
     constructor() {
@@ -49,8 +48,8 @@ class Add extends Component {
         this._hideDateTimePicker();
     };
 
-    _handleDateRegistration = (date) => {
-        console.log('A date has been picked: ', date);
+    _handleDateRegistration = (date) => {        
+        
         let monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
@@ -58,11 +57,13 @@ class Add extends Component {
         let dayNames = ["Sunday", "Monday","Tuesday", "Wednesdey", "Thursday", "Friday", "Saturday"]
 
         this.props.registerChanged(dayNames[date.getDay()]+", " + date.getDate()+" "+monthNames[date.getMonth()]+" "+date.getFullYear());
+        
         this._hideDateTimeRegister();
     };
 
     onButtonPress = () => { 
         const { name, description, date, register, images, place } = this.props
+        const day = moment().format()
         this.props.methodPost({ name, description, date, register, day, images, place })        
     }
     
@@ -190,12 +191,12 @@ class Add extends Component {
                     <View style={styles.date}>
                         <TextInput
                             editable={false}
-                            style={{ width: getWidthDate, color: '#000' }}
-                            placeholder="Select Date"
+                            style={{ width: getWidthDate, color: '#000',  }}
+                            placeholder="Day, DD MM YYYY"
                             value={`${this.props.register}`}                
                             onChangeText={text => this.props.registerChanged(text)}
                         />
-                        <TouchableOpacity onPress={this._showDateTimeRegister}>
+                        <TouchableOpacity onPress={this._showDateTimeRegister} style={styles.iconReg}>
                             <Image source={calendarIcon} style={styles.calendar} />
                         </TouchableOpacity>
                     </View>    
@@ -209,11 +210,11 @@ class Add extends Component {
                         <TextInput
                             editable={false}
                             style={{ width: getWidthDate, color: '#000' }}
-                            placeholder="Select Date"
+                            placeholder="Day, DD MM YYYY"
                             value={`${this.props.date}`}                
                             onChangeText={text => this.props.dateChanged(text)}
                         />
-                        <TouchableOpacity onPress={this._showDateTimePicker}>
+                        <TouchableOpacity onPress={this._showDateTimePicker} style={styles.iconStart}>
                             <Image source={calendarIcon} style={styles.calendar} />
                         </TouchableOpacity>
                     </View>    
@@ -267,6 +268,24 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',        
         top: 0,
         left: 0
+    },
+    iconReg: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+        borderColor: 'green',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    iconStart: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

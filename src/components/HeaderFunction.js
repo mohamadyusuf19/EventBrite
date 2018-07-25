@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     textFunction: {
         color: '#000',
         fontSize: 18,
-        fontWeight: '800'
+        fontWeight: '600',
+        color: 'blue'
     }
 })
 

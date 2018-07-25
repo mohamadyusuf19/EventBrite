@@ -29,7 +29,7 @@ export const methodPost = ({ name, description, date, register, day, images, pla
               register: register,
               day: day,
               images: images,
-              place: place
+              place: place              
             }),
         })
             .then((data) => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Header from '../../components/Header';
+import ReadMore from 'react-native-read-more-text';
 
 const getHeight = Dimensions.get('window').height*0.4;
 const getWidth = Dimensions.get('window').width
@@ -42,7 +43,13 @@ class Registration extends Component {
                     {this.renderImages()}
                     <View style={styles.field}>
                         <Text style={styles.title}>{this.props.detail[0]}</Text>                    
-                        <Text style={styles.containDes}>{this.props.detail[1]}</Text>
+                        <ReadMore
+                            numberOfLines={4}
+                            onReady={this._handleTextReady}>
+                            <Text style={styles.containDes}>
+                                {this.props.detail[1]}
+                            </Text>
+                        </ReadMore>
                         <View style={styles.row}>
                             <View style={styles.key}>
                                 <Text style={styles.contain}>Register Until</Text>
@@ -121,7 +128,9 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     row: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10
     },
     key: {
         marginRight: 10

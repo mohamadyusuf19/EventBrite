@@ -5,16 +5,19 @@ import {
     StyleSheet, 
     FlatList, 
     TouchableOpacity,     
-    Image 
+    Image,
+    Alert 
 } from 'react-native';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
 import { methodGet } from '../../actions/methodGetActions';
 import { postBookmark } from '../../actions/postBookmarkActions';
+import { selectActions } from '../../actions/selectActions';
 import Loading from '../../components/Loading';
 import { Actions } from 'react-native-router-flux';
 import ReadMore from 'react-native-read-more-text';
+import TimeAgo from 'react-native-timeago';
 
 const addIcon = require('../../Assets/plus.png')
 const bookmarkIcon = require('../../Assets/bookmark.png') 
@@ -22,6 +25,12 @@ const brokenImage = require('../../Assets/brokenImage.png')
 const avatarIcon = require('../../Assets/avatar.png')
 
 class Home extends Component {    
+    constructor() {
+        super()
+        this.state = {
+            onButtonClicked: false
+        }
+    }
 
     componentWillMount() {
         this.props.methodGet()
@@ -31,7 +40,7 @@ class Home extends Component {
         Actions.register({detail: indexDetail})
     }
 
-    render() {  
+    render() {         
         return (
             <View style={{ flex: 1 }}>
                 <Header
@@ -74,10 +83,30 @@ class Home extends Component {
         )
     }
 
-    _renderItem = ({ item, index }) => {                
+    _renderItem = ({ item, index }) => {                        
+        const { id, name, description, date, register, images, place } = item         
+        
         const onButtonBookmark = () => {
-            const { name, description, date, register, images, place } = item
-            this.props.postBookmark({ name, description, date, register, images, place })            
+            return (this.props.postBookmark({ name, description, date, register, images, place, id }))                  
+        }
+
+        console.log(this.props.selectedID)
+
+        const onButtonPress = () => {
+            this.setState({
+                onButtonClicked: !this.state.onButtonClicked
+            })
+        }
+
+        const styleBookmark = () => {
+            if (this.props.selectedID===id) {            
+                return (
+                    [styles.bookmark1, this.props.color&&styles.bookmark2]
+                )
+            }    
+            return (
+                [styles.bookmark1]
+            )               
         }
 
         const renderImages = () => {
@@ -91,8 +120,8 @@ class Home extends Component {
                     <Image source={{ uri: item.images }} style={styles.images}/>
                 </View>                
             )
-        }        
-
+        }                
+        
         return (                  
                 <CardSection>             
                     <View style={styles.row}>
@@ -100,17 +129,17 @@ class Home extends Component {
                             <Image source={avatarIcon} style={{ height: 22, width: 22 }} />
                         </TouchableOpacity>
                         <View style={{ flexDirection:'column', alignItems: 'flex-end', marginRight: 5 }}>
-                            <Text style={styles.title}>{item.name}</Text>                    
-                            <Text>{item.day}</Text>
+                            <Text style={styles.title}>{item.name}</Text>                               
+                            <TimeAgo time={item.day} />                                             
                         </View>                    
                     </View>                         
-                    {renderImages()}
+                    {renderImages()}                    
                     <View style={{ marginBottom: 15, borderTopColor: '#f1f1f1', borderTopWidth: 1 }}>                                            
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
-                            <TouchableOpacity onPress={() => onButtonBookmark()}>
-                                <Image source={bookmarkIcon} style={[styles.bookmark1, this.props.color && styles.bookmark2]}/>
-                            </TouchableOpacity>                            
+                            <TouchableOpacity onPress={() => [this.props.selectActions(id), onButtonBookmark()]}>
+                                <Image source={bookmarkIcon} style={styleBookmark()}/>
+                            </TouchableOpacity>                                                        
                         </View>                        
                         <ReadMore
                             numberOfLines={2}
@@ -124,7 +153,7 @@ class Home extends Component {
                         <View style={{ marginRight: 8 }}>                                            
                             <Text style={styles.bold}>Start Event </Text>
                             <Text style={styles.bold}>Place </Text>
-                            <Text style={styles.bold}>Register Until </Text>                        
+                            <Text style={styles.bold}>Register Until </Text>                                                                          
                             <Text style={styles.bold}>Tiket Available</Text>
                         </View>                
                         <View>                                            
@@ -193,9 +222,9 @@ const styles = StyleSheet.create({
     },
     bookmark1: {
         height: 25, 
-        width: 25, 
+        width: 25,         
         marginRight: 15,
-        tintColor: '#000' 
+        tintColor: '#000',         
     },
     bookmark2: {        
         tintColor: 'red',
@@ -213,14 +242,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     const { data, loading, error, refresh } = state.methodGetReducer;      
-    const { color } = state.postBookmarkReducer;
+    const { color, selectedID } = state.selectReducer;
     return {
         data,
         loading,
         error,         
         refresh,
-        color
+        color,
+        selectedID
     }
 }
 
-export default connect(mapStateToProps, { methodGet, postBookmark })(Home);
+export default connect(mapStateToProps, { methodGet, postBookmark, selectActions })(Home);

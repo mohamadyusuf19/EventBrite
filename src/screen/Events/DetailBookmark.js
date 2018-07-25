@@ -9,7 +9,7 @@ const getWidth = Dimensions.get('window').width
 const brokenImage = require('../../Assets/brokenImage.png')
 const dustbinIcon = require('../../Assets/dustbin.png')
 
-class DetailEvent extends Component {
+class DetailBookmark extends Component {
     constructor() {
         super()
         this.state = {
@@ -153,4 +153,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(null, { deleteBookmark })(DetailEvent);
+export default connect(null, { deleteBookmark })(DetailBookmark);

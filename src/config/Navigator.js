@@ -5,12 +5,14 @@ import Home from '../screen/Home/Home';
 import Account from '../screen/Account/Account';
 import Event from '../screen/Events/Event';
 import Search from '../screen/Search/Search';
+import Bookmark from '../screen/Events/Bookmark';
 // import Add from '../screen/Add/Add';
 
 const homeIcon = require('../Assets/home.png')
 const eventIcon = require('../Assets/event.png')
 const userIcon = require('../Assets/user.png')
 const searchIcon = require('../Assets/search.png')
+const bookmarkIcon = require('../Assets/agenda.png')
 // const addIcon = require('../Assets/plus.png')
 
 const bottomNavigator = createBottomTabNavigator({
@@ -38,18 +40,6 @@ const bottomNavigator = createBottomTabNavigator({
             )
         }
     },
-    // Add: {
-    //     screen: Add,
-    //     navigationOptions: {
-    //         header: null,            
-    //         tabBarIcon: ({ tintColor }) => (
-    //             <Image
-    //                 source={addIcon}
-    //                 style={[styles.icon, { tintColor }]}
-    //             />
-    //         )            
-    //     }
-    // },
     Event: {
         screen: Event,
         navigationOptions: {
@@ -60,6 +50,18 @@ const bottomNavigator = createBottomTabNavigator({
                     style={[styles.icon, { tintColor }]}
                 />
             )
+        }
+    },
+    Bookmark: {
+        screen: Bookmark,
+        navigationOptions: {
+            header: null,            
+            tabBarIcon: ({ tintColor }) => (
+                <Image
+                    source={bookmarkIcon}
+                    style={[styles.icon, { tintColor }]}
+                />
+            )            
         }
     },
     Account: {

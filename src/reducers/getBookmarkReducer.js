@@ -11,8 +11,7 @@ const initialState = {
     refresh: false
 }
 
-export default function getBookmarkReducer(state = initialState, action) {
-    console.log(action)
+export default function getBookmarkReducer(state = initialState, action) {    
     switch(action.type) {
         case GET_DATA_BEGIN_BOOKMARK:
             return { ...state, loading: true, refresh: true };

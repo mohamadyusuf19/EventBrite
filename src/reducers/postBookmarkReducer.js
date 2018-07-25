@@ -1,25 +1,23 @@
 import {
     POST_DATA_SUCCESS_BOOKMARK,
     POST_DATA_BOOKMARK,
-    POST_DATA_FAILURE_BOOKMARK
+    POST_DATA_FAILURE_BOOKMARK    
 } from '../actions/types';
 
 const initialState = {
     data: [],
     loading: false,
-    error: null,
-    color: false    
+    error: null         
 }
 
 export default function postBookmarkReducer(state = initialState, action) {
-    console.log(action)
     switch(action.type) {        
         case POST_DATA_SUCCESS_BOOKMARK: 
-            return { ...state, loading: false, data: action.payload}
+            return { ...state, loading: false, data: action.payload }
         case POST_DATA_BOOKMARK:
-            return { ...state, loading: true, color: true }
+            return { ...state, loading: true }
         case POST_DATA_FAILURE_BOOKMARK:
-            return { ...state, loading: false, error: action.payload }        
+            return { ...state, loading: false, error: action.payload }               
         default: 
             return state;
     }

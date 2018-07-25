@@ -4280,6 +4280,10 @@ react-native-modal@^6.2.0:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
+react-native-read-more-text@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-read-more-text/-/react-native-read-more-text-1.1.0.tgz#d6f02a5caff8c91297957be66ecb42287c084e96"
+
 react-native-router-flux@^4.0.0-beta.31:
   version "4.0.0-beta.31"
   resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-4.0.0-beta.31.tgz#edea28cbac705fbb324ae8f5eb136dc0bef1e1e8"
@@ -4321,6 +4325,10 @@ react-native-tab-view@^1.0.0:
   resolved "https://codeload.github.com/react-navigation/react-native-tab-view/tar.gz/36ebd834d78b841fc19778c966465d02fd1213bb"
   dependencies:
     prop-types "^15.6.0"
+
+react-native-timeago@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-timeago/-/react-native-timeago-0.4.0.tgz#653b3a11217a3c6a331de99f9d614b3e58faf523"
 
 react-native@0.56.0:
   version "0.56.0"

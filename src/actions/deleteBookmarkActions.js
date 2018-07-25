@@ -27,7 +27,7 @@ export const deleteBookmark = ({ name, description, date, register, day, images,
             }),
         })
             .then(data => dispatch(deleteDataSuccessBookmark(data))) 
-            .then(Actions.event())       
+            .then(Actions.bookmark())       
             .catch(error => dispatch(deleteDataFailureBookmark(error)))
     }
 }
