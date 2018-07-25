@@ -19,15 +19,11 @@ import {
     getDataSearch 
 } from '../../actions/searchActions';
 import Loading from '../../components/Loading';
+import HeaderSearch from '../../components/HeaderSearch';
 import { Actions } from 'react-native-router-flux';
-import ReadMore from 'react-native-read-more-text';
-import TimeAgo from 'react-native-timeago';
 import _ from 'lodash';
 
-const addIcon = require('../../Assets/plus.png')
-const bookmarkIcon = require('../../Assets/bookmark.png') 
-const brokenImage = require('../../Assets/brokenImage.png')
-const avatarIcon = require('../../Assets/avatar.png')
+const searchIcon = require('../../Assets/search.png')
 
 class Search extends Component {        
 
@@ -35,14 +31,13 @@ class Search extends Component {
         this.props.searchActions()
     }
 
-    render() {         
+    render() {  
+        console.log(this.props.data)       
         return (
-            <View style={{ flex: 1 }}>
-                <Header
-                    textHeader="Event Brite"
-                    onPress={() => Actions.add()}
-                    source={addIcon}
-                /> 
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>                                     
+                    <HeaderSearch
+                        onChangeText={this.handleSearch}
+                    />
                 {this.renderAll()}        
             </View>                 
         )
@@ -57,11 +52,12 @@ class Search extends Component {
         this.props.getDataSearch({fulldata})          
     }
     
-    renderHeader = () => {
-        return <TextInput
-                    placeholder="Search"                    
-                    onChangeText={this.handleSearch}
-                />
+    renderData = () => {
+        if(this.props.fulldata) {
+            return this.props.data
+        } else {
+            return this.props.fulldata
+        }       
     }
 
     renderFooter = () => {
@@ -80,12 +76,15 @@ class Search extends Component {
             )
         }
         return (
-            <View style={{ flex: 1 }}>            
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>            
                 <FlatList                    
                     data={this.props.fulldata}
                     keyExtractor={(x,i) => i.toString() }
-                    renderItem={this._renderItem}                                             
-                    ListHeaderComponent={this.renderHeader}
+                    renderItem={this._renderItem}                                                  
+                    onEndReachedThreshold={0.5}
+                    refreshing={this.props.refresh}
+                    onRefresh={() => this.props.searchActions()}
+                    ListFooterComponent={this.renderFooter}
                 />
             </View>
         )
@@ -93,16 +92,19 @@ class Search extends Component {
 
     _renderItem = ({ item, index }) => {                                
         
-        return (                  
+        return (            
+            <TouchableOpacity>
                 <CardSection>             
                     <View style={styles.row}>
                         <Image source={{ uri: item.images }} style={styles.images}/>
                         <View>
                             <Text>{item.name}</Text>    
+                            <Text>{item.place}</Text>    
                             <Text>{item.date}</Text>    
                         </View>    
                     </View>                           
-                </CardSection>                        
+                </CardSection>
+            </TouchableOpacity>                              
         )
     }
 }
@@ -111,26 +113,38 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         height: 60,
-        borderBottomColor: '#f1f1f1',
-        borderBottomWidth: 1,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     images: {
         height: 40,
         width: 40,
+        marginRight: 20
+    },
+    imagesIcon: {
+        height: 20,
+        width: 20,
         marginRight: 15
+    },
+    search: {
+        height: 60,
+        backgroundColor: '#fff',
+        alignItems: 'center',        
+        elevation: 8, 
+        borderBottomColor: '#f1f1f1',
+        borderBottomWidth: 1,       
     }
 })
 
 const mapStateToProps = state => {
-    const { data, loading, error, query, fulldata } = state.searchReducer;      
+    const { data, loading, error, query, fulldata, refresh } = state.searchReducer;      
     return {
         data,
         loading,
         error,
         query,
-        fulldata        
+        fulldata,
+        refresh        
     }
 }
 

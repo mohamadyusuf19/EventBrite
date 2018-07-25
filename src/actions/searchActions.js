@@ -56,8 +56,8 @@ export const searchChanged = (text) => {
     }
 }
 
-export const contains = ({ name }, query) => {
-    if(name.includes(query)) {
+export const contains = ({ name, date, place }, query) => {
+    if(name.includes(query) || date.includes(query) || place.includes(query) ) {
         return  true
     } 
     return false;
