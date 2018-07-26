@@ -101,7 +101,7 @@ class Home extends Component {
         const styleBookmark = () => {
             if (this.props.selectedID===id) {            
                 return (
-                    [styles.bookmark1, this.props.color&&styles.bookmark2]
+                    [styles.bookmark1, this.state.onButtonClicked&&styles.bookmark2]
                 )
             }    
             return (
@@ -137,7 +137,7 @@ class Home extends Component {
                     <View style={{ marginBottom: 15, borderTopColor: '#f1f1f1', borderTopWidth: 1 }}>                                            
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
-                            <TouchableOpacity onPress={() => [this.props.selectActions(id), onButtonBookmark()]}>
+                            <TouchableOpacity onPress={() => [this.props.selectActions(id), onButtonBookmark(), onButtonPress()]}>
                                 <Image source={bookmarkIcon} style={styleBookmark()}/>
                             </TouchableOpacity>                                                        
                         </View>                        

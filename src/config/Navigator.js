@@ -31,7 +31,7 @@ const bottomNavigator = createBottomTabNavigator({
     Search: {
         screen: Search,
         navigationOptions: {
-            header: null,
+            header: null,            
             tabBarIcon: ({ tintColor }) => (
                 <Image
                     source={searchIcon}
@@ -86,7 +86,8 @@ const bottomNavigator = createBottomTabNavigator({
         },
         style: {
             backgroundColor: '#fff',
-            height: 60
+            height: 60,        
+            marginBottom: 0
         },
         showLabel: false
     }
