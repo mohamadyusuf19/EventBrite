@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, Dimensions, Alert } from 'react-native';
 import Header from '../../components/Header';
 import { deleteBookmark } from '../../actions/deleteBookmarkActions';
+import { getBookmark } from '../../actions/getBookmark';
+import { methodUpdate, methodGet } from '../../actions/methodGetActions';
 import { connect } from 'react-redux';
 
 const getHeight = Dimensions.get('window').height*0.4;
@@ -13,7 +15,8 @@ class DetailBookmark extends Component {
     constructor() {
         super()
         this.state = {
-            onButtonClicked: false
+            onButtonClicked: false,
+            color: false
         }
         this.onButtonDelete = this.onButtonDelete.bind(this)
     }
@@ -22,6 +25,11 @@ class DetailBookmark extends Component {
         this.setState({
             onButtonClicked: !this.state.onButtonClicked
         })
+    }
+
+    componentWillUnmount() {
+        this.props.getBookmark()
+        this.props.methodGet()
     }
 
     renderImages() {
@@ -35,14 +43,28 @@ class DetailBookmark extends Component {
         )        
     }
 
-    onButtonDelete() {
+    onButtonDelete() {        
+        const name = this.props.detail[0]                          
+        const description= this.props.detail[1]
+        const register= this.props.detail[2]
+        const date= this.props.detail[3]
+        const images= this.props.detail[4]
+        const place= this.props.detail[5]
         const id = this.props.detail[6]
+        const day= this.props.detail[7]
+        const { color } = this.state
+
         Alert.alert(
             'Perhatian',
             'Hapus Data Bookmark',
             [                                        
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
-                {text: 'OK', onPress: () => this.props.deleteBookmark({id})},
+                {text: 'OK', onPress: () => [
+                    this.props.deleteBookmark({id}), 
+                    this.props.methodUpdate({
+                        id, name, description, date, register, images, place, color, day
+                    })
+                ]},
             ],
             { cancelable: false }
         )
@@ -54,9 +76,7 @@ class DetailBookmark extends Component {
             <ScrollView style={styles.container}> 
                 <View style={styles.container}>
                     <Header
-                        textHeader="Bookmark"
-                        source={dustbinIcon}
-                        onPress={() => this.onButtonDelete()}
+                        textHeader="Bookmark"                        
                     />      
                     {this.renderImages()}                                         
                     <View style={styles.field}>                            
@@ -153,4 +173,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(null, { deleteBookmark })(DetailBookmark);
+export default connect(null, { deleteBookmark, getBookmark, methodUpdate, methodGet })(DetailBookmark);

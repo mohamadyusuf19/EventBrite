@@ -20,10 +20,7 @@ import {
 } from '../../actions/searchActions';
 import Loading from '../../components/Loading';
 import HeaderSearch from '../../components/HeaderSearch';
-import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-
-const searchIcon = require('../../Assets/search.png')
 
 class Search extends Component {        
 

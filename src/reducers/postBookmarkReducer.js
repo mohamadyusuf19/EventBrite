@@ -7,13 +7,14 @@ import {
 const initialState = {
     data: [],
     loading: false,
-    error: null         
+    error: null,
+    color: false         
 }
 
 export default function postBookmarkReducer(state = initialState, action) {
     switch(action.type) {        
         case POST_DATA_SUCCESS_BOOKMARK: 
-            return { ...state, loading: false, data: action.payload }
+            return { ...state, loading: false, data: action.payload, color: true }
         case POST_DATA_BOOKMARK:
             return { ...state, loading: true }
         case POST_DATA_FAILURE_BOOKMARK:

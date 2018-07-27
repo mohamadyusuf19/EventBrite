@@ -24,6 +24,9 @@ class Add extends Component {
         super()
         this.onButtonPress = this.onButtonPress.bind(this)
         this.onButtonPost = this.onButtonPost.bind(this)
+        this.state = {
+            color: false
+        }
     }
 
     state = {
@@ -64,7 +67,8 @@ class Add extends Component {
     onButtonPress = () => { 
         const { name, description, date, register, images, place } = this.props
         const day = moment().format()
-        this.props.methodPost({ name, description, date, register, day, images, place })        
+        const { color } = this.state
+        this.props.methodPost({ name, description, date, register, day, images, place, color })        
     }
     
     onButtonPost = () =>  {

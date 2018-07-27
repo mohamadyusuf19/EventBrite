@@ -12,7 +12,7 @@ export const PLACE_CHANGED = 'PLACE_CHANGED';
 
 const url = 'http://211.11.1.87:3001/bookmark';
 
-export const postBookmark = ({ name, description, date, register, day, images, place, id }) => {
+export const postBookmark = ({ name, description, date, register, day, images, place, id, color }) => {
     return dispatch => {
         Actions.bookmark()
         dispatch(postDataBookmark());
@@ -30,7 +30,8 @@ export const postBookmark = ({ name, description, date, register, day, images, p
               day: day,
               images: images,
               place: place,
-              id_item: id
+              id: id,
+              color: color
             }),
         })            
             .then(data => dispatch(postDataSuccessBookmark(data)))        

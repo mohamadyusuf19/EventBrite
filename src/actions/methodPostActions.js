@@ -12,7 +12,7 @@ export const PLACE_CHANGED = 'PLACE_CHANGED';
 
 const url = 'http://211.11.1.87:3000/eventbrite';
 
-export const methodPost = ({ name, description, date, register, day, images, place }) => {
+export const methodPost = ({ name, description, date, register, day, images, place, color }) => {
     return dispatch => {
         Actions.main()
         dispatch(postData());
@@ -29,7 +29,8 @@ export const methodPost = ({ name, description, date, register, day, images, pla
               register: register,
               day: day,
               images: images,
-              place: place              
+              place: place,
+              color: color              
             }),
         })
             .then((data) => {

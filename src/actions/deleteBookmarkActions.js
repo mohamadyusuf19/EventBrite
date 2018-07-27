@@ -8,6 +8,7 @@ const url = 'http://211.11.1.87:3001/bookmark';
 
 export const deleteBookmark = ({ name, description, date, register, day, images, place, id }) => {
     return dispatch => {
+        Actions.bookmark()
         dispatch(deleteDataBookmark());
         return fetch(url+"/"+id, { 
             method: 'DELETE',
@@ -26,8 +27,7 @@ export const deleteBookmark = ({ name, description, date, register, day, images,
               place: place
             }),
         })
-            .then(data => dispatch(deleteDataSuccessBookmark(data))) 
-            .then(Actions.bookmark())       
+            .then(data => dispatch(deleteDataSuccessBookmark(data)))             
             .catch(error => dispatch(deleteDataFailureBookmark(error)))
     }
 }

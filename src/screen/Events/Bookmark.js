@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Header from '../../components/Header';
 import { getBookmark } from '../../actions/getBookmark';
+import { methodGet } from '../../actions/methodGetActions';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { Actions } from 'react-native-router-flux';
@@ -12,6 +13,10 @@ const getHeight = Dimensions.get('window').height*0.25
 class Bookmark extends Component {
     componentWillMount() {
         this.props.getBookmark()
+    }
+
+    componentWillUnmount() {
+        this.props.methodGet()
     }
 
     showEvent(index) {
@@ -66,7 +71,8 @@ class Bookmark extends Component {
                 item.date,                                    
                 item.images,
                 item.place,
-                item.id
+                item.id,                
+                item.day
             ])}>
                 <Image style={styles.image} source={{ uri: item.images }} />
             </TouchableOpacity>
@@ -99,4 +105,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { getBookmark })(Bookmark);
+export default connect(mapStateToProps, { getBookmark, methodGet })(Bookmark);

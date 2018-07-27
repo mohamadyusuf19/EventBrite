@@ -11,8 +11,9 @@ import {
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import CardSection from '../../components/CardSection';
-import { methodGet } from '../../actions/methodGetActions';
+import { methodGet, methodUpdate } from '../../actions/methodGetActions';
 import { postBookmark } from '../../actions/postBookmarkActions';
+import { deleteBookmark } from '../../actions/deleteBookmarkActions';
 import { selectActions } from '../../actions/selectActions';
 import Loading from '../../components/Loading';
 import { Actions } from 'react-native-router-flux';
@@ -28,13 +29,14 @@ class Home extends Component {
     constructor() {
         super()
         this.state = {
-            onButtonClicked: false
+            onButtonClicked: false,
+            color: true
         }
     }
 
     componentWillMount() {
         this.props.methodGet()
-    }
+    }    
 
     showRegistration(indexDetail) {
         Actions.register({detail: indexDetail})
@@ -84,30 +86,52 @@ class Home extends Component {
     }
 
     _renderItem = ({ item, index }) => {                        
-        const { id, name, description, date, register, images, place } = item         
-        
+        const { id, name, description, date, register, images, place, day } = item   
+
+        const { color } = this.state
         const onButtonBookmark = () => {
-            return (this.props.postBookmark({ name, description, date, register, images, place, id }))                  
+            if (item.color===true) {
+                return [
+                    this.props.methodUpdate({id, name, description, date, register, images, place, color: false, day}),
+                    this.props.deleteBookmark({id})
+                ]
+            } else if(item.color===false){
+                return (
+                    [this.props.postBookmark({ name, description, date, register, images, place, id, color, day }),
+                     this.props.methodUpdate({id, name, description, date, register, images, place, color, day})
+                    ]
+                )                  
+            }            
         }
 
         console.log(this.props.selectedID)
 
-        const onButtonPress = () => {
-            this.setState({
-                onButtonClicked: !this.state.onButtonClicked
-            })
-        }
+        // const onButtonPress = () => {
+        //     this.setState({
+        //         onButtonClicked: !this.state.onButtonClicked
+        //     })
+        // }
 
-        const styleBookmark = () => {
-            if (this.props.selectedID===id) {            
-                return (
-                    [styles.bookmark1, this.state.onButtonClicked&&styles.bookmark2]
-                )
-            }    
-            return (
-                [styles.bookmark1]
-            )               
-        }
+        // const onUpdateColor = () => {
+
+        //     const { color } = this.state
+        //     if(item.color===false){
+        //         return this.props.methodUpdate({id, name, description, date, register, images, place, color, day})
+        //     } else if (item.color===true){
+        //         return this.props.deleteBookmark({id})
+        //     }            
+        // }
+
+        // const styleBookmark = () => {
+        //     if (this.props.selectedID===id) {            
+        //         return (
+        //             [styles.bookmark1, item.color&&styles.bookmark2]
+        //         )
+        //     }    
+        //     return (
+        //         [styles.bookmark1]
+        //     )               
+        // }
 
         const renderImages = () => {
             if(!item.images) {
@@ -137,8 +161,8 @@ class Home extends Component {
                     <View style={{ marginBottom: 15, borderTopColor: '#f1f1f1', borderTopWidth: 1 }}>                                            
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.bold, { marginTop: 10 }]}>Description: </Text>
-                            <TouchableOpacity onPress={() => [this.props.selectActions(id), onButtonBookmark(), onButtonPress()]}>
-                                <Image source={bookmarkIcon} style={styleBookmark()}/>
+                            <TouchableOpacity onPress={() => [this.props.selectActions(id), onButtonBookmark()]}>
+                                <Image source={bookmarkIcon} style={[styles.bookmark1, item.color&&styles.bookmark2]}/>
                             </TouchableOpacity>                                                        
                         </View>                        
                         <ReadMore
@@ -242,7 +266,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     const { data, loading, error, refresh } = state.methodGetReducer;      
-    const { color, selectedID } = state.selectReducer;
+    const { selectedID } = state.selectReducer;
+    const { color } = state.postBookmarkReducer;
     return {
         data,
         loading,
@@ -253,4 +278,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { methodGet, postBookmark, selectActions })(Home);
+export default connect(mapStateToProps, { methodGet, postBookmark, selectActions, methodUpdate, deleteBookmark })(Home);
